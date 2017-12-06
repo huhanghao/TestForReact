@@ -1,138 +1,134 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
-import React, {Component} from 'react';
+import React from 'react';
 import {
-    Platform,
-    StyleSheet,
-    ToastAndroid,
+    AppRegistry,
     Text,
     View,
-    Navigator
+    Button,
+    TouchableOpacity,
+    ToastAndroid,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-const instructions = Platform.select({
-    ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-    android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+import {StackNavigator, NavigationActions} from 'react-navigation';
+import TestPage1 from'./src/pages/originPageJump'
+import TestPage2 from'./src/pages/ChangeNavTitle'
+import TestPage3 from'./src/pages/StackNav'
 
-const initialRoute = { name: 'loginPage'}
+const picCar = require('./src/part/img/tab_1_selected.png');
 
-// Navigator跳转规则
-function RouteMapper(route, navigation) {
-    // todo ,根据route 返回相应的场景
-    if (route.name === 'LoginPage') {
+class HomeScreen extends React.Component {
+    static navigationOptions = {
+        title: 'Welcome',
+    };
+
+    render() {
+        const {navigate} = this.props.navigation;
         return (
-            <LoginPage navigator={navigation} />
+            <View>
+                <Text>Hello, Chat App!</Text>
+                <Button
+                    onPress={() => navigate('page1', { user: 'Lucy' ,cao:'123'})}
+                    title="open page1"
+                />
+                <Button
+                    onPress={() => navigate('page2', { user: 'Lucy' ,cao:'123'})}
+                    title="open page2"
+                    style={{
+                       marginTop:50,
+                        textColor:'#333333',
+                    }}
+                />
+                <Button
+                    onPress={() => navigate('page3')}
+                    title="open page3"
+                    style={{
+                       marginTop:50,
+                        textColor:'#333333',
+                    }}
+                />
+            </View>
         );
     }
-    // else if (route.name === 'MainPage') {
-    //     return (
-    //         <MainPage navigator={navigation} />
-    //     );
-    // } else if (route.name === 'OrderPinDetailPage') {
-    //     return (
-    //         <OrderPinDetailPage {...route.params} navigator={navigation} />
-    //     );
-    // } else if (route.name === 'OrderBaoDetailPage') {
-    //     return (
-    //         <OrderBaoDetailPage {...route.params} navigator={navigation} />
-    //     );
-    // } else if (route.name === 'OrderGovDetailPage') {
-    //     return (
-    //         <OrderGovDetailPage {...route.params} navigator={navigation} />
-    //     );
-    // } else if (route.name === 'OrderAirDetailPage') {
-    //     return (
-    //         <OrderAirDetailPage {...route.params} navigator={navigation} />
-    //     );
-    // }else if (route.name === 'MorePage') {
-    //     return (
-    //         <MorePage navigator={navigation} />
-    //     );
-    // } else if (route.name === 'QRcodePageAndroid') {
-    //     return (
-    //         <QRcodePageAndroid {...route.params} navigator={navigation} />
-    //     );
-    // } else if (route.name === 'QRcodePageiOS') {
-    //     return (
-    //         <QRcodePageiOS {...route.params} navigator={navigation} />
-    //     );
-    // } else if (route.name === 'TestPage') {
-    //     return (
-    //         <OrderAirDetailPage
-    //             navigator={navigation} />
-    //     );
-    // } else if (route.name === 'UpdatePage') {
-    //     return (
-    //         <UpdatePage
-    //             {...route.params}
-    //             navigator={navigation} />
-    //     )
-    // } else if (route.name === 'ChangePSWPage') {
-    //     return (
-    //         <ChangePSWPage
-    //             navigator={navigation} />
-    //     )
-    // } else if (route.name === 'AboutUsPage') {
-    //     return (
-    //         <AboutUsPage
-    //             navigator={navigation} />
-    //     )
-    // } else if (route.name === 'RollBusPage') {
-    //     return (
-    //         <RollBusPage
-    //             navigator={navigation} />
-    //     );
-    // }
 }
 
+const SimpleAppNavigator = StackNavigator({
+    Home: {screen: HomeScreen},
+    page1: {screen: TestPage1,
+        navigationOptions: ({navigation}) => ({
+            title : "pageInit",//左上角的返回键文字, 默认是上一个页面的title  IOS 有效
+        })},
+    page2: {screen: TestPage2,
+        navigationOptions: ({navigation}) => ({
+            // headerBackTitle : "返回",//左上角的返回键文字, 默认是上一个页面的title  IOS 有效
+            headerStyle: {
+                backgroundColor: '#567'
+            },
+            //导航栏的title的style
+            headerTitleStyle: {
+                color: 'green',
+                alignSelf : 'center',//居中显示
+                marginRight:70
+            },
+            //返回按钮的颜色
+            headerTintColor : 'red',
+        })},
+    page3: {
+        screen: TestPage3,
+        navigationOptions: ({navigation}) => ({
+            // title: 'My Profile',
+            headerTitle: (
+                <Icon
+                    name="rocket"   //设置图片
+                    size={30}   //图片大小
+                    color="black"  //图片颜色
+                    style={{
+                            justifyContent:'center',
+                            marginLeft: 120
+                        }}
+                />
+            ),
+            headerLeft: (
+                <TouchableOpacity
+                    onPress={() => {
+                        let resetAction = NavigationActions.reset({
+                                index: 1,
+                                actions: [ NavigationActions.navigate({ routeName: 'Home'}),
+                                            NavigationActions.navigate({ routeName: 'page1'})],
 
-export default class App extends Component<{}> {
+                                key: null
+                        })
+                    navigation.dispatch(resetAction)}}>
+
+                    <Icon
+                        name="rocket"   //设置图片
+                        size={30}   //图片大小
+                        color="black"  //图片颜色
+                        style={{
+                            marginLeft: 20,
+                        }}
+                    />
+                </TouchableOpacity>
+            )
+        })
+    },
+},{
+    initialRouteName: 'Home', // 初始显示的界面
+    onTransitionStart: ()=>{
+        ToastAndroid.show('导航栏切换开始', ToastAndroid.SHORT); },  // 回调
+    onTransitionEnd: ()=>{
+        ToastAndroid.show('导航栏切换结束', ToastAndroid.SHORT);},  // 回调
+});
+
+const AppNavigation = () => (
+    <SimpleAppNavigator />
+);
+
+class App extends React.Component {
     render() {
         return (
-            // <View style={styles.container}>
-            //     <Text style={styles.welcome}>
-            //         Welcome to React Native!
-            //     </Text>
-            //     <Text style={styles.instructions}>
-            //         To get started, edit App.js
-            //     </Text>
-            //     <Text style={styles.instructions}>
-            //         {instructions}
-            //     </Text>
-            //     <Text style={ styles.btnText }>
-            //         { this.state.appKey }
-            //     </Text>
-            // </View>
-            <Navigator
-                initialRoute={initialRoute}
-                renderScene={RouteMapper}
-            />
+            <AppNavigation/>
         );
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
-});
+export default App;
