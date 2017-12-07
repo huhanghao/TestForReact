@@ -20,11 +20,12 @@ const styles = StyleSheet.create({
     },
 });
 
-class TestForJunp extends React.Component {
+class TestForJump extends React.Component {
 
     constructor(props) {
         super(props);
     }
+
 
     static navigationOptions = {
         title: `page1`,
@@ -36,11 +37,20 @@ class TestForJunp extends React.Component {
 
     loginWithFacebook = () => {   //点击"Login with Facebook"按钮后触发的方法
         ToastAndroid.show('facebook', ToastAndroid.SHORT);
+
+        // 清除，回到Home
+        // let resetAction = NavigationActions.reset({
+        //     index: 0,
+        //     actions: [ NavigationActions.navigate({ routeName: 'Home'})],
+        //     key: null
+        // })
+        // this.props.navigation.dispatch(resetAction);
+
+        this.props.navigation.goBack();
     }
 
+
     render() {
-        // The screen's current route is passed in to `props.navigation.state`:
-        const {params} = this.props.navigation.state;
         return (
             <View style={styles.container}>
                 <Icon
@@ -80,4 +90,4 @@ class TestForJunp extends React.Component {
 }
 
 
-export default TestForJunp;
+export default TestForJump;

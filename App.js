@@ -10,11 +10,11 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {StackNavigator, NavigationActions} from 'react-navigation';
-import TestPage1 from'./src/pages/originPageJump'
-import TestPage2 from'./src/pages/ChangeNavTitle'
-import TestPage3 from'./src/pages/StackNav'
-
-const picCar = require('./src/part/img/tab_1_selected.png');
+import TestPage1 from'./src/pages/OriginJumpPage'
+import TestPage2 from'./src/pages/ChangeNavTitlePage'
+import TestPage3 from'./src/pages/StackNavPage'
+import TestPage4 from'./src/pages/TopTabNavPage'
+import TestPage5 from'./src/pages/BottomTabNavPage'
 
 class HomeScreen extends React.Component {
     static navigationOptions = {
@@ -41,6 +41,22 @@ class HomeScreen extends React.Component {
                 <Button
                     onPress={() => navigate('page3')}
                     title="open page3"
+                    style={{
+                       marginTop:50,
+                        textColor:'#333333',
+                    }}
+                />
+                <Button
+                    onPress={() => navigate('page4')}
+                    title="open page4"
+                    style={{
+                       marginTop:50,
+                        textColor:'#333333',
+                    }}
+                />
+                <Button
+                    onPress={() => navigate('page5')}
+                    title="open page5"
                     style={{
                        marginTop:50,
                         textColor:'#333333',
@@ -111,6 +127,14 @@ const SimpleAppNavigator = StackNavigator({
             )
         })
     },
+    page4: {screen: TestPage4,
+        navigationOptions: ({navigation}) => ({
+            title : "page4",
+        })},
+    page5: {screen: TestPage5,
+        navigationOptions: ({navigation}) => ({
+            title : "page5",
+        })},
 },{
     initialRouteName: 'Home', // 初始显示的界面
     onTransitionStart: ()=>{
@@ -119,14 +143,10 @@ const SimpleAppNavigator = StackNavigator({
         ToastAndroid.show('导航栏切换结束', ToastAndroid.SHORT);},  // 回调
 });
 
-const AppNavigation = () => (
-    <SimpleAppNavigator />
-);
-
 class App extends React.Component {
     render() {
         return (
-            <AppNavigation/>
+            <SimpleAppNavigator/>
         );
     }
 }
