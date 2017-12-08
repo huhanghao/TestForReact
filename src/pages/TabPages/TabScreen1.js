@@ -9,13 +9,24 @@ import {
     View,
     Button
 } from 'react-native';
+import netUtil from 'TestForReact/src/Utils/ApiUtils';
 
 class TabScreen1 extends React.Component {
+
+
+    requestDataFromNet = () => {
+        netUtil.getRequest();
+
+    }
 
     render() {
         return (
             <View>
                 <Text>TabScreen1</Text>
+                <Button
+                    title="加载网络数据"
+                    onPress={this.requestDataFromNet}
+                />
             </View>
         );
     }

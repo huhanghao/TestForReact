@@ -19,10 +19,6 @@ class StackNavTest extends React.Component {
         super(props);
     }
 
-    // static navigationOptions = {
-    //     title:`page3_TestforStackNav`,
-    // };
-
     render() {
         // The screen's current route is passed in to `props.navigation.state`:
         const { params } = this.props.navigation.state;

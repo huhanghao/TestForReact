@@ -15,6 +15,7 @@ import TestPage2 from'./src/pages/ChangeNavTitlePage'
 import TestPage3 from'./src/pages/StackNavPage'
 import TestPage4 from'./src/pages/TopTabNavPage'
 import TestPage5 from'./src/pages/BottomTabNavPage'
+import TestPage6 from'./src/pages/DrawerNavPage'
 
 class HomeScreen extends React.Component {
     static navigationOptions = {
@@ -57,6 +58,14 @@ class HomeScreen extends React.Component {
                 <Button
                     onPress={() => navigate('page5')}
                     title="open page5"
+                    style={{
+                       marginTop:50,
+                        textColor:'#333333',
+                    }}
+                />
+                <Button
+                    onPress={() => navigate('page6')}
+                    title="open page6"
                     style={{
                        marginTop:50,
                         textColor:'#333333',
@@ -135,12 +144,18 @@ const SimpleAppNavigator = StackNavigator({
         navigationOptions: ({navigation}) => ({
             title : "page5",
         })},
+    page6: {screen: TestPage6,
+        navigationOptions: ({navigation}) => ({
+            title : "page6",
+        })},
 },{
     initialRouteName: 'Home', // 初始显示的界面
     onTransitionStart: ()=>{
-        ToastAndroid.show('导航栏切换开始', ToastAndroid.SHORT); },  // 回调
+        // ToastAndroid.show('导航栏切换开始', ToastAndroid.SHORT);
+    },  // 回调
     onTransitionEnd: ()=>{
-        ToastAndroid.show('导航栏切换结束', ToastAndroid.SHORT);},  // 回调
+        // ToastAndroid.show('导航栏切换结束', ToastAndroid.SHORT);
+    },  // 回调
 });
 
 class App extends React.Component {
